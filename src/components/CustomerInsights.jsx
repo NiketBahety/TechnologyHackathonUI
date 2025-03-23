@@ -3,6 +3,7 @@ import CustomerInfo from "./CustomerInfo";
 import RecommendedServices from "./RecommendedServices";
 import SentimentAnalysis from "./SentimentAnalysis";
 import TransactionInsights from "./TransactionInsights";
+import ImprovementAnalysis from "./ServiceOptimization";
 import { Grid2, Paper } from "@mui/material";
 
 const CustomerInsights = () => {
@@ -120,6 +121,23 @@ const CustomerInsights = () => {
       },
     ],
   };
+  
+  const servicesImprovementData = {
+    overallImprovement: "Focus on enhancing customer experience with the Credit Card with Rewards and refining Investment Plans for better returns and transparency.",
+    productRecommendations: [
+      { name: "Premium Savings Account", improvement: "Maintain current offerings and explore additional perks to retain customer satisfaction." },
+      { name: "Credit Card with Rewards", improvement: "Revamp the rewards program to offer better incentives and address customer pain points related to fees or redemption options." },
+      { name: "Home Loan", improvement: "Improve transparency in loan terms and offer personalized guidance to increase customer confidence." },
+      { name: "Personal Loan", improvement: "Streamline the approval process and provide competitive interest rates to attract more customers." },
+      { name: "Investment Plans", improvement: "Enhance investment options with clearer risk assessments and better customer education." },
+      { name: "Car Loan", improvement: "Continue offering competitive rates and consider adding flexible repayment options." },
+    ],
+    insights: `
+    Overall, the focus should be on improving customer experience with the Credit Card with Rewards and refining Investment Plans. 
+    The Premium Savings Account and Car Loan are well-received, so maintaining their current benefits is crucial. 
+    Enhancing transparency in loan products and streamlining application processes can further boost customer satisfaction.
+    `,
+  };
 
   const [customerData, setCustomerData] = useState(dummyData);
   const [productRecommendations, setProductRecommendations] = useState(
@@ -150,6 +168,9 @@ const CustomerInsights = () => {
       </Paper>
       <Paper sx={{ backgroundColor: "#f4f4f4", padding: 3 }}>
         <TransactionInsights transactionInsights={transactionInsights} />
+      </Paper>
+      <Paper sx={{ backgroundColor: "#ffffff", padding: 2 }}>
+        <ImprovementAnalysis improvements={servicesImprovementData} />
       </Paper>
     </Grid2>
   );
