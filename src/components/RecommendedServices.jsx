@@ -2,6 +2,7 @@ import React from "react";
 import { Typography, Grid2, Card, CardContent, Container } from "@mui/material";
 
 const RecommendedServices = ({ productRecommendations }) => {
+  if (!productRecommendations) return <></>;
   return (
     <Container>
       <Typography variant="h5" color="primary" sx={{ my: 2 }}>

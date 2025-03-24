@@ -3,7 +3,7 @@ import { Typography, Grid2, Card, CardContent, Container } from "@mui/material";
 import SentimentBar from "./SentimentBar";
 
 const SentimentAnalysis = ({ sentiments }) => {
-  console.log(sentiments);
+  if (!sentiments) return <></>;
   return (
     <Container>
       <Typography variant="h5" color="primary" sx={{ my: 2 }}>
@@ -11,7 +11,7 @@ const SentimentAnalysis = ({ sentiments }) => {
       </Typography>
 
       <Typography variant="body2" color="textSecondary" sx={{ mb: 1 }}>
-        -1 being unsatisfied and 1 being satisfied
+        0 being unsatisfied and 1 being satisfied
       </Typography>
 
       <Grid2 container spacing={3}>
@@ -30,7 +30,7 @@ const SentimentAnalysis = ({ sentiments }) => {
       <Typography variant="h6" color="primary" sx={{ mt: 4 }}>
         Overall Banking Services Sentiment
       </Typography>
-      <SentimentBar value={sentiments.overallSentiment} />
+      <SentimentBar value={sentiments?.overallSentiment} />
 
       {/* <Typography
         variant="body1"

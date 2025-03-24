@@ -28,7 +28,9 @@ const TransactionInsights = ({ transactionInsights }) => {
     setSelectedMetric(event.target.value);
   };
 
-  const dataForGraph = transactionInsights.monthlyTransactionData.map(
+  if (!transactionInsights) return <></>;
+
+  const dataForGraph = transactionInsights?.monthlyTransactionData.map(
     (dataPoint) => ({
       month: dataPoint.month.substr(0, 3),
       value:

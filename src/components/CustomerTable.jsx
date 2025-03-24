@@ -20,37 +20,33 @@ const CustomerProductTables = () => {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const [customers, setCustomers] = useState([
-    {
-      CustomerID: "AlisonGaines78",
-      FirstName: "Alison",
-      LastName: "Gaines",
-      Gender: "Female",
-      Email: "gonzalezjudith@example.org",
-      Phone: "795-650-7753x87058",
-    },
-  ]);
+  const [customers, setCustomers] = useState([]);
+  const [products, setProducts] = useState([]);
 
-  const [products, setProducts] = useState([
-    {
-      product_id: "1",
-      name: "Visa Classic",
-      description: "A widely accepted card with standard features.",
-      features: "Global acceptance, Basic rewards",
-      category: "Plastic Card",
-    },
-  ]);
+  useEffect(() => {
+    const getData = async () => {
+      const customerData = await getAllCustomers();
+      const productData = await getAllProducts();
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const customerData = await getAllCustomers();
-  //     const productData = await getAllProducts();
-  //     setCustomers(customerData);
-  //     setProducts(productData);
-  //   };
+      let modifiedCustomerData = [];
 
-  //   getData();
-  // }, []);
+      for (let cust of customerData) {
+        modifiedCustomerData.push({
+          CustomerID: cust["CustomerID"],
+          FirstName: cust["FirstName"],
+          LastName: cust["FirstName"],
+          Gender: cust["Gender"],
+          Email: cust["Email"],
+          Phone: cust["Phone"],
+        });
+      }
+
+      setCustomers(modifiedCustomerData);
+      setProducts(productData);
+    };
+
+    getData();
+  }, []);
 
   const [searchQuery, setSearchQuery] = useState({
     CustomerID: "",

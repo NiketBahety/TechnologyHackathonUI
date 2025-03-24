@@ -17,6 +17,7 @@ const InfoCard = ({ title, value }) => (
 );
 
 const CustomerInfo = ({ customerData }) => {
+  if (!customerData) return <></>;
   return (
     <Container>
       <Typography variant="h4" color="primary" sx={{ my: 2 }}>
@@ -24,10 +25,13 @@ const CustomerInfo = ({ customerData }) => {
       </Typography>
 
       <Grid container spacing={3}>
-        <InfoCard title="Customer ID" value={customerData.customerId} />
-        <InfoCard title="Name" value={customerData.customerName} />
-        <InfoCard title="Age" value={customerData.customerAge} />
-        <InfoCard title="Gender" value={customerData.gender} />
+        <InfoCard title="Customer ID" value={customerData.CustomerID} />
+        <InfoCard
+          title="Name"
+          value={customerData.FirstName + " " + customerData.LastName}
+        />
+        <InfoCard title="Age" value={customerData.Age} />
+        <InfoCard title="Gender" value={customerData.Gender} />
       </Grid>
 
       <Typography

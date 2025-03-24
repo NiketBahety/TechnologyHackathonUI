@@ -12,14 +12,7 @@ import { getCustomerInfo, getRecommendations } from "../api";
 const CustomerInsights = () => {
   const { id } = useParams();
 
-  const dummyData = {
-    customerName: "John Doe",
-    customerAge: 30,
-    gender: "Male",
-    customerId: "12345",
-    summary:
-      "Alison Gaines is a 32-year-old female customer from Jacksonville, United States, with a low risk profile and an active account status. She has a significant current balance of $36,867.07 and a history of 940 transactions, with an average transaction amount of $693.27. She is an active user of digital banking services, with a preferred contact method of phone and a recent activity flag indicating frequent engagement with her accounts. She also has a strong presence on social media platforms, where she shares her preferences for travel and financial products, and has a total of 5 accounts with the bank.",
-  };
+  const dummyData = {};
 
   const dummyRecommendedServices = [
     {
@@ -172,33 +165,25 @@ const CustomerInsights = () => {
     `,
   };
 
-  const [customerData, setCustomerData] = useState(dummyData);
-  const [recommendedServices, setRecommendedServices] = useState(
-    dummyRecommendedServices
-  );
-  const [sentiments, setSentiments] = useState(sentimentData);
-  const [transactionInsights, setTransactionInsights] = useState(
-    dummyTransactionInsights
-  );
-
-  useEffect(() => {
-    setCustomerData(dummyData);
-    setRecommendedServices(dummyRecommendedServices);
-    setSentiments(sentimentData);
-    setTransactionInsights(dummyTransactionInsights);
-  }, []);
+  const [customerData, setCustomerData] = useState();
+  const [recommendedServices, setRecommendedServices] = useState();
+  const [sentiments, setSentiments] = useState();
+  const [transactionInsights, setTransactionInsights] = useState();
+  const [serviceOptimization, setServiceOptimization] = useState();
 
   useEffect(() => {
     const getData = async () => {
-      const customerInfo = await getCustomerInfo(id);
-      const recommendations = await getRecommendations(id);
+      // const customerInfo = await getCustomerInfo(id);
+      // const recommendations = await getRecommendations(id);
 
-      setCustomerData({ ...customerInfo, summary: recommendations.profile });
-      setRecommendedServices(recommendations?.products?.Products);
-      setSentiments({
-        productSentiments: recommendations.products_sentiment,
-        overallSentiment: 1, // this will come from transaction insights call
-      });
+      // setCustomerData({ ...customerInfo, summary: recommendations.profile });
+      // setRecommendedServices(recommendations?.products?.Products);
+      // setSentiments({
+      //   productSentiments: recommendations.products_sentiment,
+      //   overallSentiment: 1, // this will come from transaction insights call
+      // });
+      setTransactionInsights(dummyTransactionInsights);
+      setServiceOptimization(servicesImprovementData);
     };
     getData();
   }, []);
@@ -218,7 +203,7 @@ const CustomerInsights = () => {
         <TransactionInsights transactionInsights={transactionInsights} />
       </Paper>
       <Paper sx={{ backgroundColor: "#ffffff", padding: 2 }}>
-        <ImprovementAnalysis improvements={servicesImprovementData} />
+        <ImprovementAnalysis improvements={serviceOptimization} />
       </Paper>
     </Grid2>
   );

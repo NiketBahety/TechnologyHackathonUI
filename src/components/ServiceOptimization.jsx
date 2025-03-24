@@ -3,6 +3,7 @@ import { Typography, Card, CardContent, Container } from "@mui/material";
 import { Grid2 } from "@mui/material"; // Import Grid2 instead of Grid
 
 const ImprovementAnalysis = ({ improvements }) => {
+  if (!improvements) return <></>;
   return (
     <Container>
       <Typography variant="h5" color="primary" sx={{ my: 2 }}>
