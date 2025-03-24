@@ -41,8 +41,20 @@ const CustomerProductTables = () => {
         });
       }
 
+      let modifiedProducts = [];
+
+      for (let prod of productData) {
+        modifiedProducts.push({
+          product_id: prod["product_id"],
+          name: prod["name"],
+          description: prod["description"],
+          features: prod["features"],
+          category: prod["category"],
+        });
+      }
+
       setCustomers(modifiedCustomerData);
-      setProducts(productData);
+      setProducts(modifiedProducts);
     };
 
     getData();
