@@ -21,7 +21,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const TransactionInsights = ({ transactionInsights }) => {
+const TransactionInsights = ({ transactionInsights, predictions }) => {
   const [selectedMetric, setSelectedMetric] = useState("count");
 
   const handleChangeMetric = (event) => {
@@ -66,7 +66,6 @@ const TransactionInsights = ({ transactionInsights }) => {
           </Card>
         </Grid2>
 
-        {/* Graph for Monthly Transactions */}
         <Grid2 size={{ xs: 12 }}>
           <Card>
             <CardContent>
@@ -94,6 +93,17 @@ const TransactionInsights = ({ transactionInsights }) => {
             </CardContent>
           </Card>
         </Grid2>
+
+        <Typography
+          variant="body1"
+          sx={{
+            fontSize: "1.3rem",
+            my: 2,
+          }}
+        >
+          Forecasted total amount of transactions by the customer in the
+          upcoming month: ${predictions.toFixed(2)}
+        </Typography>
       </Grid2>
     </Container>
   );

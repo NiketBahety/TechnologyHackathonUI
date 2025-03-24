@@ -174,6 +174,7 @@ const CustomerInsights = () => {
   const [sentiments, setSentiments] = useState();
   const [transactionInsights, setTransactionInsights] = useState();
   const [serviceOptimization, setServiceOptimization] = useState();
+  const [prediction, setPrediction] = useState();
 
   useEffect(() => {
     const getData = async () => {
@@ -185,11 +186,12 @@ const CustomerInsights = () => {
       setRecommendedServices(recommendations?.products?.Products);
       setSentiments({
         productSentiments: recommendations.products_sentiment,
-        overallSentiment: transactions.predictions.score,
+        overallSentiment: transactions.prediction.score,
       });
       setTransactionInsights(
         transactions.transaction_insights.Transaction_Insights
       );
+      setPrediction(transactions.prediction.predicted);
       setServiceOptimization(servicesImprovementData);
     };
     getData();
@@ -207,7 +209,10 @@ const CustomerInsights = () => {
         <SentimentAnalysis sentiments={sentiments} />
       </Paper>
       <Paper sx={{ backgroundColor: "#f4f4f4", padding: 3 }}>
-        <TransactionInsights transactionInsights={transactionInsights} />
+        <TransactionInsights
+          transactionInsights={transactionInsights}
+          predictions={prediction}
+        />
       </Paper>
       <Paper sx={{ backgroundColor: "#ffffff", padding: 2 }}>
         <ImprovementAnalysis improvements={serviceOptimization} />
