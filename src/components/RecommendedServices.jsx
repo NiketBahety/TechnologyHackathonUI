@@ -9,13 +9,13 @@ const RecommendedServices = ({ productRecommendations }) => {
       </Typography>
 
       <Grid2 container spacing={3}>
-        {productRecommendations.map((service, index) => (
+        {productRecommendations?.map((service, index) => (
           <Grid2 item size={{ xs: 12, sm: 6 }} key={index}>
             <Card>
               <CardContent>
-                <Typography variant="h6">{service.name}</Typography>
+                <Typography variant="h6">{service.Product_Name}</Typography>
                 <Typography variant="body2" color="textSecondary">
-                  {service.reason}
+                  {service.Reason}
                 </Typography>
               </CardContent>
             </Card>

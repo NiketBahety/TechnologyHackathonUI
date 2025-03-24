@@ -3,6 +3,7 @@ import { Typography, Grid2, Card, CardContent, Container } from "@mui/material";
 import SentimentBar from "./SentimentBar";
 
 const SentimentAnalysis = ({ sentiments }) => {
+  console.log(sentiments);
   return (
     <Container>
       <Typography variant="h5" color="primary" sx={{ my: 2 }}>
@@ -14,12 +15,12 @@ const SentimentAnalysis = ({ sentiments }) => {
       </Typography>
 
       <Grid2 container spacing={3}>
-        {sentiments.productSentiments.map((product, index) => (
+        {sentiments?.productSentiments?.map((product, index) => (
           <Grid2 item size={{ xs: 12, sm: 6 }} key={index}>
             <Card>
               <CardContent>
-                <Typography variant="h6">{product.name}</Typography>
-                <SentimentBar value={product.sentiment} />
+                <Typography variant="h6">{product.Product_Name}</Typography>
+                <SentimentBar value={product.Similarity} />
               </CardContent>
             </Card>
           </Grid2>
@@ -31,7 +32,7 @@ const SentimentAnalysis = ({ sentiments }) => {
       </Typography>
       <SentimentBar value={sentiments.overallSentiment} />
 
-      <Typography
+      {/* <Typography
         variant="body1"
         sx={{
           fontSize: "1.3rem",
@@ -39,7 +40,7 @@ const SentimentAnalysis = ({ sentiments }) => {
         }}
       >
         {sentiments.insights}
-      </Typography>
+      </Typography> */}
     </Container>
   );
 };

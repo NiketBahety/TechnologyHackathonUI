@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   TextField,
@@ -14,55 +14,63 @@ import {
   Tooltip,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { getAllCustomers, getAllProducts } from "../api";
 
-const CustomerTable = () => {
+const CustomerProductTables = () => {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const [customers] = useState([
+  const [customers, setCustomers] = useState([
     {
-      id: 1,
-      name: "Alice Johnson",
-      email: "alice@mail.com",
-      city: "New York",
-      phone: "123-456-7890",
-    },
-    {
-      id: 2,
-      name: "Bob Smith",
-      email: "bob@mail.com",
-      city: "Los Angeles",
-      phone: "987-654-3210",
-    },
-    {
-      id: 3,
-      name: "Charlie Brown",
-      email: "charlie@mail.com",
-      city: "Chicago",
-      phone: "456-789-1234",
-    },
-    {
-      id: 4,
-      name: "David Lee",
-      email: "david@mail.com",
-      city: "San Francisco",
-      phone: "321-654-9870",
+      CustomerID: "AlisonGaines78",
+      FirstName: "Alison",
+      LastName: "Gaines",
+      Gender: "Female",
+      Email: "gonzalezjudith@example.org",
+      Phone: "795-650-7753x87058",
     },
   ]);
 
+  const [products, setProducts] = useState([
+    {
+      product_id: "1",
+      name: "Visa Classic",
+      description: "A widely accepted card with standard features.",
+      features: "Global acceptance, Basic rewards",
+      category: "Plastic Card",
+    },
+  ]);
+
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const customerData = await getAllCustomers();
+  //     const productData = await getAllProducts();
+  //     setCustomers(customerData);
+  //     setProducts(productData);
+  //   };
+
+  //   getData();
+  // }, []);
+
   const [searchQuery, setSearchQuery] = useState({
-    id: "",
-    name: "",
-    email: "",
-    city: "",
-    phone: "",
+    CustomerID: "",
+    FirstName: "",
+    LastName: "",
+    Gender: "",
+    Email: "",
+    Phone: "",
   });
 
-  const handleSearchChange = (e, column) => {
-    setSearchQuery({
-      ...searchQuery,
-      [column]: e.target.value,
-    });
+  const [productSearchQuery, setProductSearchQuery] = useState({
+    product_id: "",
+    name: "",
+    description: "",
+    features: "",
+    category: "",
+  });
+
+  const handleSearchChange = (e, column, setSearch) => {
+    setSearch((prev) => ({ ...prev, [column]: e.target.value }));
   };
 
   const filteredCustomers = customers.filter((customer) =>
@@ -70,12 +78,25 @@ const CustomerTable = () => {
       customer[column]
         .toString()
         .toLowerCase()
-        .startsWith(searchQuery[column].toLowerCase())
+        .includes(searchQuery[column].toLowerCase())
     )
   );
 
-  const handleRowClick = (id) => {
-    navigate(`/customer/${id}`);
+  const filteredProducts = products.filter((product) =>
+    Object.keys(productSearchQuery).every((column) =>
+      product[column]
+        .toString()
+        .toLowerCase()
+        .includes(productSearchQuery[column].toLowerCase())
+    )
+  );
+
+  const handleRowClick = (CustomerID) => {
+    navigate(`/customer/${CustomerID}`);
+  };
+
+  const handleProductRowClick = (id) => {
+    navigate(`/product/${id}`);
   };
 
   return (
@@ -87,90 +108,162 @@ const CustomerTable = () => {
       >
         Customer Table
       </Typography>
-
-      <TableContainer component={Paper} sx={{ boxShadow: 3 }}>
-        <Table>
+      <TableContainer
+        component={Paper}
+        sx={{
+          boxShadow: 3,
+          mb: 4,
+          maxHeight: 400,
+          overflow: "auto",
+          scrollbarWidth: "none",
+          "&::-webkit-scrollbar": { display: "none" },
+        }}
+      >
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
-              {["id", "name", "email", "city", "phone"].map((column) => (
+              {[
+                "CustomerID",
+                "FirstName",
+                "LastName",
+                "Gender",
+                "Email",
+                "Phone",
+              ].map((column) => (
                 <TableCell
                   key={column}
                   sx={{
                     fontWeight: "bold",
                     backgroundColor: theme.palette.primary.main,
                     color: "white",
-                    fontSize: "1.1rem",
-                    border: "none",
                   }}
                 >
                   {column.charAt(0).toUpperCase() + column.slice(1)}
                 </TableCell>
               ))}
             </TableRow>
-            <TableRow sx={{ backgroundColor: "#fff" }}>
-              {["id", "name", "email", "city", "phone"].map((column) => (
-                <TableCell key={column} sx={{ padding: "8px", border: "none" }}>
+            <TableRow>
+              {[
+                "CustomerID",
+                "FirstName",
+                "LastName",
+                "Gender",
+                "Email",
+                "Phone",
+              ].map((column) => (
+                <TableCell key={column}>
                   <TextField
-                    label={`Search ${
-                      column.charAt(0).toUpperCase() + column.slice(1)
-                    }`}
-                    variant="outlined"
                     size="small"
                     fullWidth
+                    placeholder={`Search ${column}`}
                     value={searchQuery[column]}
-                    onChange={(e) => handleSearchChange(e, column)}
-                    sx={{ width: "100%", fontSize: "1rem" }}
+                    onChange={(e) =>
+                      handleSearchChange(e, column, setSearchQuery)
+                    }
                   />
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredCustomers.length > 0 ? (
-              filteredCustomers.map((customer) => (
-                <Tooltip key={customer.id} title="View Insights" arrow>
-                  <TableRow
-                    sx={{
-                      "&:nth-of-type(even)": { backgroundColor: "#f9f9f9" },
-                      "&:hover": {
-                        backgroundColor: "#e0e0e0",
-                        cursor: "pointer",
-                      },
-                    }}
-                    onClick={() => handleRowClick(customer.id)}
-                  >
-                    <TableCell sx={{ fontSize: "1rem" }}>
-                      {customer.id}
-                    </TableCell>
-                    <TableCell sx={{ fontSize: "1rem" }}>
-                      {customer.name}
-                    </TableCell>
-                    <TableCell sx={{ fontSize: "1rem" }}>
-                      {customer.email}
-                    </TableCell>
-                    <TableCell sx={{ fontSize: "1rem" }}>
-                      {customer.city}
-                    </TableCell>
-                    <TableCell sx={{ fontSize: "1rem" }}>
-                      {customer.phone}
-                    </TableCell>
-                  </TableRow>
-                </Tooltip>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={5}
+            {filteredCustomers.map((customer) => (
+              <Tooltip key={customer.CustomerID} title="View Insights" arrow>
+                <TableRow
                   sx={{
-                    textAlign: "center",
-                    padding: "16px",
-                    fontSize: "1rem",
+                    cursor: "pointer",
+                    "&:hover": { backgroundColor: theme.palette.action.hover },
+                  }}
+                  onClick={() => handleRowClick(customer.CustomerID)}
+                >
+                  {Object.values(customer).map((value, index) => (
+                    <TableCell key={index}>{value}</TableCell>
+                  ))}
+                </TableRow>
+              </Tooltip>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{ color: "white", textAlign: "center", fontSize: "2rem" }}
+      >
+        Product Table
+      </Typography>
+      <TableContainer
+        component={Paper}
+        sx={{
+          boxShadow: 3,
+          mb: 4,
+          maxHeight: 400,
+          overflow: "scroll",
+          scrollbarWidth: "none",
+          "&::-webkit-scrollbar": { display: "none" },
+        }}
+      >
+        <Table>
+          <TableHead>
+            <TableRow>
+              {[
+                "product_id",
+                "name",
+                "description",
+                "features",
+                "category",
+              ].map((column) => (
+                <TableCell
+                  key={column}
+                  sx={{
+                    fontWeight: "bold",
+                    backgroundColor: theme.palette.primary.main,
+                    color: "white",
                   }}
                 >
-                  No customers found.
+                  {column.charAt(0).toUpperCase() + column.slice(1)}
                 </TableCell>
-              </TableRow>
-            )}
+              ))}
+            </TableRow>
+            <TableRow>
+              {[
+                "product_id",
+                "name",
+                "description",
+                "features",
+                "category",
+              ].map((column) => (
+                <TableCell key={column}>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    placeholder={`Search ${column}`}
+                    value={productSearchQuery[column]}
+                    onChange={(e) =>
+                      handleSearchChange(e, column, setProductSearchQuery)
+                    }
+                  />
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredProducts.map((product) => (
+              <Tooltip key={product.product_id} title="View Insights" arrow>
+                <TableRow
+                  key={product.product_id}
+                  sx={{
+                    cursor: "pointer",
+                    "&:hover": { backgroundColor: theme.palette.action.hover },
+                  }}
+                  onClick={() => handleProductRowClick(product.product_id)}
+                >
+                  {Object.values(product).map((value, index) => (
+                    <TableCell key={index}>{value}</TableCell>
+                  ))}
+                </TableRow>
+              </Tooltip>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -178,4 +271,4 @@ const CustomerTable = () => {
   );
 };
 
-export default CustomerTable;
+export default CustomerProductTables;

@@ -29,6 +29,16 @@ const CustomerInfo = ({ customerData }) => {
         <InfoCard title="Age" value={customerData.customerAge} />
         <InfoCard title="Gender" value={customerData.gender} />
       </Grid>
+
+      <Typography
+        variant="body1"
+        sx={{
+          fontSize: "1.3rem",
+          my: 2,
+        }}
+      >
+        {customerData.summary}
+      </Typography>
     </Container>
   );
 };

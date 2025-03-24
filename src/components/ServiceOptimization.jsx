@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Card, CardContent, Container } from "@mui/material";
-import {Grid2} from "@mui/material"; // Import Grid2 instead of Grid
+import { Grid2 } from "@mui/material"; // Import Grid2 instead of Grid
 
 const ImprovementAnalysis = ({ improvements }) => {
   return (

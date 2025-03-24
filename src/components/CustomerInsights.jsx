@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import CustomerInfo from "./CustomerInfo";
 import RecommendedServices from "./RecommendedServices";
 import SentimentAnalysis from "./SentimentAnalysis";
@@ -6,39 +7,46 @@ import TransactionInsights from "./TransactionInsights";
 import ImprovementAnalysis from "./ServiceOptimization";
 import { Grid2, Paper } from "@mui/material";
 
+import { getCustomerInfo, getRecommendations } from "../api";
+
 const CustomerInsights = () => {
+  const { id } = useParams();
+
   const dummyData = {
     customerName: "John Doe",
     customerAge: 30,
     gender: "Male",
     customerId: "12345",
-    recommendedServices: [
-      {
-        name: "Premium Savings Account",
-        reason:
-          "Based on your high monthly savings and transaction history, a premium savings account with higher interest rates would be beneficial.",
-      },
-      {
-        name: "Credit Card with Rewards",
-        reason:
-          "You frequently shop online and travel often. A rewards credit card with cashback on purchases and travel benefits would suit your needs.",
-      },
-      {
-        name: "Home Loan",
-        reason:
-          "Your recent inquiries about real estate and steady income indicate that a home loan with flexible EMIs might be a suitable option.",
-      },
-    ],
+    summary:
+      "Alison Gaines is a 32-year-old female customer from Jacksonville, United States, with a low risk profile and an active account status. She has a significant current balance of $36,867.07 and a history of 940 transactions, with an average transaction amount of $693.27. She is an active user of digital banking services, with a preferred contact method of phone and a recent activity flag indicating frequent engagement with her accounts. She also has a strong presence on social media platforms, where she shares her preferences for travel and financial products, and has a total of 5 accounts with the bank.",
   };
+
+  const dummyRecommendedServices = [
+    {
+      Product_Name: "Premium Savings Account",
+      Reason:
+        "Based on your high monthly savings and transaction history, a premium savings account with higher interest rates would be beneficial.",
+    },
+    {
+      Product_Name: "Credit Card with Rewards",
+      Reason:
+        "You frequently shop online and travel often. A rewards credit card with cashback on purchases and travel benefits would suit your needs.",
+    },
+    {
+      Product_Name: "Home Loan",
+      Reason:
+        "Your recent inquiries about real estate and steady income indicate that a home loan with flexible EMIs might be a suitable option.",
+    },
+  ];
 
   const sentimentData = {
     overallSentiment: 0.7,
     productSentiments: [
       { name: "Premium Savings Account", sentiment: 0.9 },
-      { name: "Credit Card with Rewards", sentiment: -1 },
+      { name: "Credit Card with Rewards", sentiment: 0.4 },
       { name: "Home Loan", sentiment: 0 },
       { name: "Personal Loan", sentiment: 0.3 },
-      { name: "Investment Plans", sentiment: -0.6 },
+      { name: "Investment Plans", sentiment: 0.6 },
       { name: "Car Loan", sentiment: 1 },
     ],
     insights: `
@@ -121,16 +129,41 @@ const CustomerInsights = () => {
       },
     ],
   };
-  
+
   const servicesImprovementData = {
-    overallImprovement: "Focus on enhancing customer experience with the Credit Card with Rewards and refining Investment Plans for better returns and transparency.",
+    overallImprovement:
+      "Focus on enhancing customer experience with the Credit Card with Rewards and refining Investment Plans for better returns and transparency.",
     productRecommendations: [
-      { name: "Premium Savings Account", improvement: "Maintain current offerings and explore additional perks to retain customer satisfaction." },
-      { name: "Credit Card with Rewards", improvement: "Revamp the rewards program to offer better incentives and address customer pain points related to fees or redemption options." },
-      { name: "Home Loan", improvement: "Improve transparency in loan terms and offer personalized guidance to increase customer confidence." },
-      { name: "Personal Loan", improvement: "Streamline the approval process and provide competitive interest rates to attract more customers." },
-      { name: "Investment Plans", improvement: "Enhance investment options with clearer risk assessments and better customer education." },
-      { name: "Car Loan", improvement: "Continue offering competitive rates and consider adding flexible repayment options." },
+      {
+        name: "Premium Savings Account",
+        improvement:
+          "Maintain current offerings and explore additional perks to retain customer satisfaction.",
+      },
+      {
+        name: "Credit Card with Rewards",
+        improvement:
+          "Revamp the rewards program to offer better incentives and address customer pain points related to fees or redemption options.",
+      },
+      {
+        name: "Home Loan",
+        improvement:
+          "Improve transparency in loan terms and offer personalized guidance to increase customer confidence.",
+      },
+      {
+        name: "Personal Loan",
+        improvement:
+          "Streamline the approval process and provide competitive interest rates to attract more customers.",
+      },
+      {
+        name: "Investment Plans",
+        improvement:
+          "Enhance investment options with clearer risk assessments and better customer education.",
+      },
+      {
+        name: "Car Loan",
+        improvement:
+          "Continue offering competitive rates and consider adding flexible repayment options.",
+      },
     ],
     insights: `
     Overall, the focus should be on improving customer experience with the Credit Card with Rewards and refining Investment Plans. 
@@ -140,8 +173,8 @@ const CustomerInsights = () => {
   };
 
   const [customerData, setCustomerData] = useState(dummyData);
-  const [productRecommendations, setProductRecommendations] = useState(
-    dummyData.recommendedServices
+  const [recommendedServices, setRecommendedServices] = useState(
+    dummyRecommendedServices
   );
   const [sentiments, setSentiments] = useState(sentimentData);
   const [transactionInsights, setTransactionInsights] = useState(
@@ -150,9 +183,24 @@ const CustomerInsights = () => {
 
   useEffect(() => {
     setCustomerData(dummyData);
-    setProductRecommendations(dummyData.recommendedServices);
+    setRecommendedServices(dummyRecommendedServices);
     setSentiments(sentimentData);
     setTransactionInsights(dummyTransactionInsights);
+  }, []);
+
+  useEffect(() => {
+    const getData = async () => {
+      const customerInfo = await getCustomerInfo(id);
+      const recommendations = await getRecommendations(id);
+
+      setCustomerData({ ...customerInfo, summary: recommendations.profile });
+      setRecommendedServices(recommendations?.products?.Products);
+      setSentiments({
+        productSentiments: recommendations.products_sentiment,
+        overallSentiment: 1, // this will come from transaction insights call
+      });
+    };
+    getData();
   }, []);
 
   return (
@@ -161,7 +209,7 @@ const CustomerInsights = () => {
         <CustomerInfo customerData={customerData} />
       </Paper>
       <Paper sx={{ backgroundColor: "#f4f4f4", padding: 3 }}>
-        <RecommendedServices productRecommendations={productRecommendations} />
+        <RecommendedServices productRecommendations={recommendedServices} />
       </Paper>
       <Paper sx={{ backgroundColor: "#ffffff", padding: 2 }}>
         <SentimentAnalysis sentiments={sentiments} />

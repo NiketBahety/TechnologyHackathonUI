@@ -2,12 +2,14 @@ import React from "react";
 import { Box, Tooltip, LinearProgress, Typography } from "@mui/material";
 
 const SentimentBar = ({ value }) => {
+  if (!value) return <></>;
+
   const getColorFromValue = (value) => {
     let red, green;
 
-    if (value < 0) {
+    if (value < 0.5) {
       red = 255;
-      green = Math.round(165 * (value + 1));
+      green = Math.round(100 + 165 * value);
     } else {
       red = Math.round(255 * (1 - value));
       green = Math.round(180 + 35 * value);
@@ -20,7 +22,7 @@ const SentimentBar = ({ value }) => {
     <Tooltip
       title={
         <Typography fontSize={16} fontWeight="bold">
-          Sentiment Score: {value.toFixed(2)}
+          Sentiment Score: {parseFloat(value).toFixed(2)}
         </Typography>
       }
       arrow
@@ -29,14 +31,14 @@ const SentimentBar = ({ value }) => {
       <Box display="flex" alignItems="center" mt={1}>
         <LinearProgress
           variant="determinate"
-          value={(value + 1) * 50} // Convert range (-1 to 1) into 0 to 100
+          value={parseFloat(value) * 100} // Convert range (-1 to 1) into 0 to 100
           sx={{
             width: "100%",
             height: 10,
             borderRadius: 5,
             backgroundColor: "#ddd",
             "& .MuiLinearProgress-bar": {
-              backgroundColor: getColorFromValue(value),
+              backgroundColor: getColorFromValue(parseFloat(value)),
             },
           }}
         />
