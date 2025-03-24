@@ -30,15 +30,13 @@ const TransactionInsights = ({ transactionInsights }) => {
 
   if (!transactionInsights) return <></>;
 
-  const dataForGraph = transactionInsights?.transaction_insights?.Transaction_Insights.map(
-    (dataPoint) => ({
-      month: dataPoint.month.substr(0, 3),
-      value:
-        selectedMetric === "count"
-          ? dataPoint.Total_Transaction_Count
-          : dataPoint.Total_Transaction_Amount,
-    })
-  );
+  const dataForGraph = transactionInsights?.map((dataPoint) => ({
+    month: dataPoint.Month.substr(0, 3),
+    value:
+      selectedMetric === "count"
+        ? dataPoint.Total_Transaction_Count
+        : dataPoint.Total_Transaction_Amount,
+  }));
 
   return (
     <Container>

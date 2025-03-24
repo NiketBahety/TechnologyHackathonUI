@@ -7,7 +7,11 @@ import TransactionInsights from "./TransactionInsights";
 import ImprovementAnalysis from "./ServiceOptimization";
 import { Grid2, Paper } from "@mui/material";
 
-import { getCustomerInfo, getRecommendations, getTransactionData } from "../api";
+import {
+  getCustomerInfo,
+  getRecommendations,
+  getTransactionData,
+} from "../api";
 
 const CustomerInsights = () => {
   const { id } = useParams();
@@ -173,16 +177,19 @@ const CustomerInsights = () => {
 
   useEffect(() => {
     const getData = async () => {
-      // const customerInfo = await getCustomerInfo(id);
-      // const recommendations = await getRecommendations(id);
+      const customerInfo = await getCustomerInfo(id);
+      const recommendations = await getRecommendations(id);
+      const transactions = await getTransactionData(id);
 
-      // setCustomerData({ ...customerInfo, summary: recommendations.profile });
-      // setRecommendedServices(recommendations?.products?.Products);
-      // setSentiments({
-      //   productSentiments: recommendations.products_sentiment,
-      //   overallSentiment: 1, // this will come from transaction insights call
-      // });
-      setTransactionInsights(dummyTransactionInsights);
+      setCustomerData({ ...customerInfo, summary: recommendations.profile });
+      setRecommendedServices(recommendations?.products?.Products);
+      setSentiments({
+        productSentiments: recommendations.products_sentiment,
+        overallSentiment: transactions.predictions.score,
+      });
+      setTransactionInsights(
+        transactions.transaction_insights.Transaction_Insights
+      );
       setServiceOptimization(servicesImprovementData);
     };
     getData();

@@ -44,13 +44,13 @@ export const getRecommendations = async (id) => {
   }
 };
 
-export const getTransactionData = async (Id) => {
+export const getTransactionData = async (id) => {
   try {
     const response = await axios.get(
-      `${API_URL}/Transaction_insight/${Id}`
+      `${API_URL}/customer_transaction_insights/${id}`
     );
     return response.data;
-   } catch (error) {
+  } catch (error) {
     console.error("Error fetching transaction insights:", error);
     return [];
   }
