@@ -100,7 +100,7 @@ const CustomerProductTables = () => {
       <Typography
         variant="h4"
         gutterBottom
-        sx={{ color: "white", textAlign: "center", fontSize: "2rem" }}
+        sx={{ color: "#e40019", textAlign: "center", fontSize: "2rem" }}
       >
         Customer Table
       </Typography>
@@ -184,7 +184,7 @@ const CustomerProductTables = () => {
       <Typography
         variant="h4"
         gutterBottom
-        sx={{ color: "white", textAlign: "center", fontSize: "2rem" }}
+        sx={{ color: "#e40019", textAlign: "center", fontSize: "2rem" }}
       >
         Product Table
       </Typography>
