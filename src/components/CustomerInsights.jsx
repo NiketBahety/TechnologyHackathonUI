@@ -7,7 +7,7 @@ import TransactionInsights from "./TransactionInsights";
 import ImprovementAnalysis from "./ServiceOptimization";
 import { Grid2, Paper } from "@mui/material";
 
-import { getCustomerInfo, getRecommendations } from "../api";
+import { getCustomerInfo, getRecommendations, getTransactionData } from "../api";
 
 const CustomerInsights = () => {
   const { id } = useParams();
