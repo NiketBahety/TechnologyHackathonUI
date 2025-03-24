@@ -75,8 +75,8 @@ const TransactionInsights = ({ transactionInsights, predictions }) => {
                   <XAxis dataKey="month" />
                   <YAxis
                     domain={[
-                      (dataMin) => dataMin * 0.9,
-                      (dataMax) => dataMax * 1.1,
+                      (dataMin) => (dataMin * 0.9).toFixed(2),
+                      (dataMax) => (dataMax * 1.1).toFixed(2),
                     ]}
                   />
                   <Tooltip />
