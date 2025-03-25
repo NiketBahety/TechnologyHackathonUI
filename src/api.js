@@ -55,3 +55,23 @@ export const getTransactionData = async (id) => {
     return [];
   }
 };
+
+export const getProductOptimization = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/product_optimizations/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching product optimizations:", error);
+    return [];
+  }
+};
+
+export const getProduct = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/product_data/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching product info:", error);
+    return [];
+  }
+};

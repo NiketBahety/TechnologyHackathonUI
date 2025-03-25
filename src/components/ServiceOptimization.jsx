@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Card, CardContent, Container } from "@mui/material";
-import { Grid2 } from "@mui/material"; // Import Grid2 instead of Grid
+import { Grid2 } from "@mui/material";
 
 const ImprovementAnalysis = ({ improvements }) => {
   if (!improvements) return <></>;
@@ -11,13 +11,12 @@ const ImprovementAnalysis = ({ improvements }) => {
       </Typography>
 
       <Grid2 container spacing={3}>
-        {improvements.productRecommendations.map((product, index) => (
+        {improvements.map((product, index) => (
           <Grid2 item size={{ xs: 12, sm: 6 }} key={index}>
             <Card>
               <CardContent>
-                <Typography variant="h6">{product.name}</Typography>
                 <Typography variant="body2" color="textSecondary">
-                  {product.improvement}
+                  {product.Suggestion}
                 </Typography>
               </CardContent>
             </Card>

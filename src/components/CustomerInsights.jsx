@@ -4,7 +4,6 @@ import CustomerInfo from "./CustomerInfo";
 import RecommendedServices from "./RecommendedServices";
 import SentimentAnalysis from "./SentimentAnalysis";
 import TransactionInsights from "./TransactionInsights";
-import ImprovementAnalysis from "./ServiceOptimization";
 import { Grid2, Paper } from "@mui/material";
 
 import {
@@ -213,9 +212,6 @@ const CustomerInsights = () => {
           transactionInsights={transactionInsights}
           predictions={prediction}
         />
-      </Paper>
-      <Paper sx={{ backgroundColor: "#ffffff", padding: 2 }}>
-        <ImprovementAnalysis improvements={serviceOptimization} />
       </Paper>
     </Grid2>
   );
