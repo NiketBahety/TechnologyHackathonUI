@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ImprovementAnalysis from "./ServiceOptimization";
 import {
   Paper,
-  Grid,
+  Grid2,
   Typography,
   List,
   ListItem,
@@ -31,8 +31,8 @@ const ProductInsights = () => {
   }, []);
 
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={12}>
+    <Grid2 container spacing={3}>
+      <Grid2 item xs={12}>
         <Paper
           sx={{
             backgroundColor: "#ffffff",
@@ -49,10 +49,10 @@ const ProductInsights = () => {
               variant="h5"
               sx={{ color: "#333", fontWeight: "bold", mb: 1 }}
             >
-              {product.name}
+              {product?.name}
             </Typography>
             <Typography variant="body1" sx={{ color: "#555", mb: 2 }}>
-              {product.description}
+              {product?.description}
             </Typography>
             <Divider sx={{ my: 2 }} />
             <Typography
@@ -65,53 +65,65 @@ const ProductInsights = () => {
                 variant="body1"
                 sx={{ fontWeight: "normal" }}
               >
-                {product.category}
+                {product?.category}
               </Typography>
             </Typography>
-            <Typography
-              variant="subtitle1"
-              sx={{ fontWeight: "bold", color: "#444" }}
-            >
-              Annual Fee:{" "}
+            {product?.annual_fee ? (
               <Typography
-                component="span"
-                variant="body1"
-                sx={{ fontWeight: "normal" }}
+                variant="subtitle1"
+                sx={{ fontWeight: "bold", color: "#444" }}
               >
-                {product.annual_fee}
+                Annual Fee:
+                <Typography
+                  component="span"
+                  variant="body1"
+                  sx={{ fontWeight: "normal" }}
+                >
+                  {product?.annual_fee}
+                </Typography>
               </Typography>
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              sx={{ fontWeight: "bold", color: "#444" }}
-            >
-              Credit Limit:{" "}
+            ) : (
+              <></>
+            )}
+            {product?.credit_limit ? (
               <Typography
-                component="span"
-                variant="body1"
-                sx={{ fontWeight: "normal" }}
+                variant="subtitle1"
+                sx={{ fontWeight: "bold", color: "#444" }}
               >
-                {product.credit_limit}
+                Credit Limit:
+                <Typography
+                  component="span"
+                  variant="body1"
+                  sx={{ fontWeight: "normal" }}
+                >
+                  {product?.credit_limit}
+                </Typography>
               </Typography>
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              sx={{ fontWeight: "bold", color: "#444" }}
-            >
-              Rewards:{" "}
+            ) : (
+              <></>
+            )}
+            {product?.rewards ? (
               <Typography
-                component="span"
-                variant="body1"
-                sx={{ fontWeight: "normal" }}
+                variant="subtitle1"
+                sx={{ fontWeight: "bold", color: "#444" }}
               >
-                {product.rewards}
+                Rewards:
+                <Typography
+                  component="span"
+                  variant="body1"
+                  sx={{ fontWeight: "normal" }}
+                >
+                  {product?.rewards}
+                </Typography>
               </Typography>
-            </Typography>
+            ) : (
+              <></>
+            )}
           </Container>
         </Paper>
-      </Grid>
+      </Grid2>
 
-      <Grid item xs={12}>
+      <Grid2 item xs={12}>
         <Paper
           sx={{
             backgroundColor: "#f8f8f8",
@@ -125,11 +137,11 @@ const ProductInsights = () => {
               Customer Feedback
             </Typography>
             <Typography variant="body1" sx={{ color: "#555", mb: 2 }}>
-              {product.customer_feedback}
+              {product?.customer_feedback}
             </Typography>
             <Divider sx={{ my: 2 }} />
             <List>
-              {product.customer_reviews.map((review, index) => (
+              {product?.customer_reviews.map((review, index) => (
                 <ListItem key={index}>
                   <ListItemText
                     primary={review}
@@ -140,9 +152,9 @@ const ProductInsights = () => {
             </List>
           </Container>
         </Paper>
-      </Grid>
+      </Grid2>
 
-      <Grid item xs={12}>
+      <Grid2 item xs={12}>
         <Paper
           sx={{
             backgroundColor: "#ffffff",
@@ -153,8 +165,8 @@ const ProductInsights = () => {
         >
           <ImprovementAnalysis improvements={serviceOptimization} />
         </Paper>
-      </Grid>
-    </Grid>
+      </Grid2>
+    </Grid2>
   );
 };
 
